@@ -1,16 +1,22 @@
 <html>
     <head>
+        <title>
+            Codenames: Duet key card generator
+        </title>
         <script lang="javascript" src="main.js" async="true"></script>
         <style>
             body {
                 background-color: linen;
+                font-family: verdana, sans-serif;
             }
             table {
+                width: 500px;
                 border: 1px solid black;
                 border-collapse: collapse;
             }            
             td {
-                border: 1px solid black;
+                border: 2px solid white;
+                height: 50px;
             }            
             .cella {
                 background-color: black;
@@ -35,7 +41,7 @@
                 <H3>Player 1 layout <span id="p1layout"></span></H3>
                 <H4 id="p1layout"></H4>
                 &dArr; Player 2 &dArr;
-                <table width=600px>
+                <table>
                     <tr>
                         <td id="p1card1">&nbsp;</td>
                         <td id="p1card2">&nbsp;</td>
@@ -83,7 +89,7 @@
             <center>
                 <H3>Player 2 layout <span id="p2layout"></span></H3>
                 &dArr; Player 1 &dArr;
-                <table width=600px>
+                <table>
                     <tr>
                         <td id="p2card25">&nbsp;</td>
                         <td id="p2card24">&nbsp;</td>
