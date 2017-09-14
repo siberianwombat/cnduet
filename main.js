@@ -19,5 +19,11 @@ function getRandomSeed() {
 }
 
 // getting url parameters
+let docURL = new URL(document.location.href);
+let seed = docURL.searchParams('seed');
+let side = docURL.searchParams('side');
 // if no seed, offer to get one
+if (seed == null) {
+    return
+}
 // otherwise, show the panel corresponding to the side (player1/player2)
