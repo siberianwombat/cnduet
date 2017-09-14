@@ -9,14 +9,20 @@
                 background-color: linen;
                 font-family: verdana, sans-serif;
             }
+            div {
+                display: none;
+            }
             table {
                 width: 500px;
-                border: 1px solid black;
+                border: 3px solid white;
                 border-collapse: collapse;
             }            
             td {
                 border: 2px solid white;
                 height: 50px;
+            }
+            input {
+                width: 500px;
             }            
             .cella {
                 background-color: black;
@@ -25,18 +31,18 @@
                 background-color: beige;
             }
             .cellh {
-                background-color: green;
+                background-color: Green;
             }
         </style>
     </head>
     <body>
-        <div id="index" style="display:none">
+        <div id="index">
             <H2>Codenames Duel key card generator</H2>
             <p>
                 <a id="genLayoutLink">Generate a new layout</a>                    
             </p>                
         </div>
-        <div id="player1"  style="display:none">
+        <div id="player1">
             <center>
                 <H3>Player 1 layout <span id="p1layout"></span></H3>
                 <H4 id="p1layout"></H4>
@@ -81,11 +87,11 @@
                 &uArr; Player 1 &uArr;
                 <p>
                     Link for player 2 team <a href=# id="player1linkToSend">Copy link</a><br>
-                    <input style="width:600px" id="pl1UrlTextArea"/>
+                    <input id="pl1UrlTextArea"/>
                 </p>
             </center>
         </div>
-        <div id="player2"  style="display:none">
+        <div id="player2">
             <center>
                 <H3>Player 2 layout <span id="p2layout"></span></H3>
                 &dArr; Player 1 &dArr;
@@ -129,7 +135,7 @@
                 &uArr; Player 2 &uArr;        
                 <p>
                     Link for player 1 team <a href=# id="player2linkToSend">Copy link</a><br>
-                    <input style="width:600px" id="pl2UrlTextArea"/>
+                    <input id="pl2UrlTextArea"/>
                 </p>
             </center>
         </div>
