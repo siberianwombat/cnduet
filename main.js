@@ -29,7 +29,7 @@ function gettingLayoutWithSeed(seed) {
     return layout
 }
 
-var UrlPrefix="http://siberianhusky.org.ua/cnduel/";
+var UrlPrefix="http://zav.org.ua/cnduet/";
 
 (function (){
     // getting url parameters
