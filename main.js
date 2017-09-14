@@ -35,7 +35,10 @@ var UrlPrefix="http://zav.org.ua/cnduet/"; // @todo: take this from request URL
     // if no seed, show just index page to offer to get one
     if (seed == null) {
         document.getElementById("index").style.display='block';
-        document.getElementById("genLayoutLink").href = '?seed=' + getRandomSeed()
+        document.getElementById("genLayoutLink").onclick = function() {
+            document.getElementById("genLayoutLink").href = '?seed=' + getRandomSeed()
+            return true;
+        }
         return
     }
 
