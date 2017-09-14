@@ -1,17 +1,39 @@
 <html>
     <head>
         <script lang="javascript" src="main.js" async="true"></script>
+        <style>
+            body {
+                background-color: linen;
+            }
+            table {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }            
+            td {
+                border: 1px solid black;
+            }            
+
+            .cella {
+                background-color: black;
+            }
+            .cellx {
+                background-color: beige;
+            }
+            .cellh {
+                background-color: green;
+            }
+        </style>
     </head>
     <body>
         <div id="index" style="display:none">
-            index page with "generate the layout" link
+            <H2>Codenames Duel key card generator</H2>
             <p>
                     <a id="genLayoutLink">Generate a new layout</a>                    
-            </p>
+            </p>                
         </div>
-        <div id="player1">
+        <div id="player1"  style="display:none">
             <center>
-                <H3>Player 1 layout</H3>
+                <H3>Player 1 layout <span id="p1layout"></span></H3>
                 <H4 id="p1layout"></H4>
                 &dArr; Player 2 &dArr;
                 <table width=600px>
@@ -51,13 +73,16 @@
                         <td id="p1card25">&nbsp;</tr>
                     </tr>                        
                 </table>
-                &uArr; Player 1 &uArr;             
+                &uArr; Player 1 &uArr;
+                <p>
+                    <input id="pl1UrlTextArea"/>
+                    <a href=# id="player1linkToSend">Copy link for another team</a>
+                </p>
             </center>
         </div>
-        <div id="player2">
+        <div id="player2"  style="display:none">
             <center>
-                <H3>Player 2 layout</H3>
-                <H4 id="p1layout"></H4>
+                <H3>Player 2 layout <span id="p2layout"></span></H3>
                 &dArr; Player 1 &dArr;
                 <table width=600px>
                     <tr>
@@ -96,7 +121,11 @@
                         <td id="p2card1">&nbsp;</td>
                     </tr>                        
                 </table>
-                &uArr; Player 2 &uArr;             
+                &uArr; Player 2 &uArr;        
+                <p>
+                    <input id="pl2UrlTextArea"/>
+                    <a href=# id="player2linkToSend">Copy link for another team</a>
+                    </p>
             </center>
         </div>
     </body>
