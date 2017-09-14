@@ -1,6 +1,5 @@
 // the main idea: get the cards position determined by prng seed given as the parameter
 // showing the first player his cars and giving him opportynity to send out the link to another part
-console.log("initializing the script")
 
 // simple prng
 function Random(seed) {
@@ -11,7 +10,7 @@ Random.prototype.next = function () { return this._seed = this._seed * 16807 % 2
 Random.prototype.nextFloat = function () { return (this.next() - 1) / 2147483646; };
 function getRandomSeed() { return Math.round(Math.random()*2147483646); }
 
-// returned an array with card classes
+// returns the array of cardNo => two-letter card class
 function gettingLayoutWithSeed(seed) {
     let assignOrder = ['aa', 'ah', 'ax', 'ha', 'xa', 'hx', 'hx', 'hx', 'hx', 'hx', 'xh', 'xh', 'xh', 'xh', 'xh', 'hh', 'hh', 'hh'];
     let layout = ['xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx', 'xx'];
@@ -29,18 +28,15 @@ function gettingLayoutWithSeed(seed) {
     return layout
 }
 
-var UrlPrefix="http://zav.org.ua/cnduet/";
+var UrlPrefix="http://zav.org.ua/cnduet/"; // @todo: take this from request URL
 
 (function (){
-    // getting url parameters
     let docURL = new URL(document.location.href);
     let seed = docURL.searchParams.get('seed');
     let side = docURL.searchParams.get('side');
 
-    // if no seed, offer to get one
+    // if no seed, show just index page to offer to get one
     if (seed == null) {
-        // showing just index page
-        console.log("showing the index page")
         document.getElementById("index").style.display='block';
         document.getElementById("genLayoutLink").href = '?seed=' + getRandomSeed()
         return
