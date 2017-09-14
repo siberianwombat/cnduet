@@ -1,6 +1,3 @@
-// the main idea: get the cards position determined by prng seed given as the parameter
-// showing the first player his cars and giving him opportynity to send out the link to another part
-
 // simple prng
 function Random(seed) {
     this._seed = seed % 2147483647;
