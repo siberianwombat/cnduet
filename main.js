@@ -18,7 +18,6 @@ function getRandomSeed() {
     return Math.round(Math.random()*2147483646);
 }
 
-
 // getting url parameters
 // if no seed, offer to get one
 // otherwise, show the panel corresponding to the side (player1/player2)
