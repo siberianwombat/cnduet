@@ -1,14 +1,18 @@
 <html>
     <head>
-        <script lang="javascript" src="main.js"></script>
+        <script lang="javascript" src="main.js" async="true"></script>
     </head>
     <body>
-        <div id="index">
+        <div id="index" style="display:none">
             index page with "generate the layout" link
+            <p>
+                    <a id="genLayoutLink">Generate a new layout</a>                    
+            </p>
         </div>
         <div id="player1">
             <center>
-                <H3>Player 2 layout</H3>
+                <H3>Player 1 layout</H3>
+                <H4 id="p1layout"></H4>
                 &dArr; Player 2 &dArr;
                 <table width=600px>
                     <tr>
@@ -53,6 +57,7 @@
         <div id="player2">
             <center>
                 <H3>Player 2 layout</H3>
+                <H4 id="p1layout"></H4>
                 &dArr; Player 1 &dArr;
                 <table width=600px>
                     <tr>
