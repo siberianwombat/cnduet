@@ -29,11 +29,11 @@ var UrlPrefix = document.location.href.replace(document.location.search, '');
 
 (function (){
     let docURL = new URL(document.location.href);
-    let seed = docURL.searchParams.get('seed');
-    let side = docURL.searchParams.get('side');
+    let seed = parseInt(docURL.searchParams.get('seed'), 10);
+    let side = parseInt(docURL.searchParams.get('side'), 10);
 
     // if no seed, show just index page to offer to get one
-    if (seed == null) {
+    if (!seed) {
         document.getElementById("index").style.display='block';
         document.getElementById("genLayoutLink").onclick = function() {
             document.getElementById("genLayoutLink").href = '?seed=' + getRandomSeed()
@@ -97,7 +97,9 @@ var UrlPrefix = document.location.href.replace(document.location.search, '');
     let playerPanel = document.getElementById(side==2 ? "player2" : "player1");
     playerPanel.style.display = 'block';
 
-    document.getElementById('cardSizeControls').style.display = 'block';
+    // settings
+    document.getElementById('nextGame').href = window.location.search.replace('seed='+seed, 'seed='+(seed+1));
+    document.getElementById('controls').style.display = 'block';
     if (window.localStorage.getItem('card-shape') === 'square') {
         playerPanel.classList.add('square-cells');
     }
@@ -105,7 +107,7 @@ var UrlPrefix = document.location.href.replace(document.location.search, '');
     // auto-hide the screen when tipped flat
     function autoShow() {
         playerPanel.style.display = 'block';
-        document.getElementById('cardSizeControls').style.display = 'block';
+        document.getElementById('controls').style.display = 'block';
         document.getElementById('hidden').style.display = 'none';
     }
     function handleOrientation(e) {
@@ -123,7 +125,7 @@ var UrlPrefix = document.location.href.replace(document.location.search, '');
         if (Math.abs(e.beta) < 35 && Math.abs(e.gamma) < 35) {
             // hide
             playerPanel.style.display = 'none';
-            document.getElementById('cardSizeControls').style.display = 'none';
+            document.getElementById('controls').style.display = 'none';
             document.getElementById('hidden').style.display = 'block';
         } else {
             autoShow();
