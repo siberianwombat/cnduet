@@ -97,6 +97,8 @@ var UrlPrefix = document.location.href.replace(document.location.search, '');
     let playerPanel = document.getElementById(side==2 ? "player2" : "player1");
     playerPanel.style.display = 'block';
 
+    document.getElementById('cardSizeControls').style.display = 'block';
+
     // auto-hide the screen when tipped flat
     function handleOrientation(e) {
         /*
@@ -113,9 +115,11 @@ var UrlPrefix = document.location.href.replace(document.location.search, '');
         if (Math.abs(e.beta) < 35 && Math.abs(e.gamma) < 35) {
             // hide
             playerPanel.style.display = 'none';
+            document.getElementById('cardSizeControls').style.display = 'none';
             document.getElementById('hidden').style.display = 'block';
         } else {
             playerPanel.style.display = 'block';
+            document.getElementById('cardSizeControls').style.display = 'block';
             document.getElementById('hidden').style.display = 'none';
         }
         //pl1UrlTextArea.value += "  b: " + Math.round(e.beta) + "  g: " + Math.round(e.gamma);
@@ -123,12 +127,22 @@ var UrlPrefix = document.location.href.replace(document.location.search, '');
     window.addEventListener("deviceorientation", handleOrientation);
     document.getElementById('disableAutoHide').onclick = function () {
         playerPanel.style.display = 'block';
+        document.getElementById('cardSizeControls').style.display = 'block';
         document.getElementById('hidden').style.display = 'none';
+
         document.getElementById('enableAutoHideControls').style.display = 'block';
         window.removeEventListener("deviceorientation", handleOrientation);
     };
     document.getElementById('enableAutoHide').onclick = function () {
         document.getElementById('enableAutoHideControls').style.display = 'none';
         window.addEventListener("deviceorientation", handleOrientation);
+    };
+
+
+    document.getElementById('rectCardSetting').onclick = function() {
+        playerPanel.classList.remove('square-cells');
+    };
+    document.getElementById('squareCardSetting').onclick = function() {
+        playerPanel.classList.add('square-cells');
     };
 })();

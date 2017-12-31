@@ -22,8 +22,11 @@
                 border-radius: 10px;
                 background-clip: padding-box; /* avoid some weird rounded border artifacts https://stackoverflow.com/a/6172847/ */
                 padding: 0;
-                width: 20vmin;  /* == 100% / 5 */
-                height: calc(20vmin * 16 / 25);  /* 16/25 is ratio of word cards */
+                width: 18vmin;  /* 100% / 5 == 20, minus some more room from the scroll bar area */
+                height: calc(18vmin * 16 / 25);  /* 16/25 is ratio of word cards */
+            }
+            .square-cells td {
+                height: 18vmin;
             }
             .UrlTextArea {
                 width: 500px;
@@ -45,6 +48,18 @@
             }
             #hidden h1 {
                 margin: 3em 0;
+            }
+            #cardSizeControls {
+                text-align: center;
+            }
+            #cardSizeControls table {
+                display: inline;
+                font-size: 5vmin;
+                line-height: 1;
+                vertical-align: middle;
+            }
+            #cardSizeControls table.square-cells {
+                font-size: 12vmin;
             }
         </style>
     </head>
@@ -166,6 +181,11 @@
             <h3>Tip device up to see the layout.<br>
                 (So your partner can't see it)</h3>
             <h2><a href=# id=disableAutoHide>Turn Off Auto-Hide</a></h2>
+        </div>
+        <div id="cardSizeControls">
+            Card Shape:<br>
+            <table id=rectCardSetting><td class=cellx>Word</td></table>
+            <table class=square-cells id=squareCardSetting><td class=cellx>&#x2663;</td></table>
         </div>
         <div id="enableAutoHideControls">
             <center>
