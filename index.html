@@ -1,31 +1,36 @@
+<!doctype html>
 <html>
     <head>
         <title>
             Codenames: Duet key card generator
         </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
         <script lang="javascript" src="main.js" async="true"></script>
         <style>
             body {
                 background-color: lightsteelblue;
                 font-family: verdana, sans-serif;
+                margin: 0;
+                box-sizing: border-box;
             }
             div {
                 display: none;
             }
-            table {
-                width: 500px;
-                /* border-collapse: collapse; */
-            }            
             td {
                 border: 2px solid lightsteelblue;
                 border-radius: 10px;
-                height: 50px;
+                background-clip: padding-box; /* avoid some weird rounded border artifacts https://stackoverflow.com/a/6172847/ */
+                padding: 0;
+                width: 20vmin;  /* == 100% / 5 */
+                height: calc(20vmin * 16 / 25);  /* 16/25 is ratio of word cards */
             }
             .UrlTextArea {
                 width: 500px;
+                max-width: 90vw;
                 border: 1px solid steelblue;
                 background-color: lightsteelblue;
-            }            
+            }
             .cella {
                 background-color: black;
             }
@@ -41,17 +46,17 @@
         <div id="index">
             <H2>Codenames Duet key card generator</H2>
             <p>
-                <a id="genLayoutLink" href=#>Generate new random layout</a> 
+                <a id="genLayoutLink" href=#>Generate new random layout</a>
                 <p>or</p>
                 <form method="GET">
-                    enter the layout number :<input size=12 name="seed">,<br>
+                    enter the layout number: <input size=12 name="seed">,<br>
                     select player side:
                     <input type="radio" name="side" value=1>1st player
                     <input checked=true type="radio" name="side" value=2>2nd player<br>
                     and press the button to view selected layout:
                     <input type="submit" value="Show selected layout">
                 </form>
-            </p>                
+            </p>
         </div>
         <div id="player1">
             <center>
@@ -93,7 +98,7 @@
                         <td id="p1card23">&nbsp;</td>
                         <td id="p1card24">&nbsp;</td>
                         <td id="p1card25">&nbsp;</tr>
-                    </tr>                        
+                    </tr>
                 </table>
                 &uArr; Player 1 &uArr;
                 <p>
@@ -141,9 +146,9 @@
                         <td id="p2card3">&nbsp;</td>
                         <td id="p2card2">&nbsp;</td>
                         <td id="p2card1">&nbsp;</td>
-                    </tr>                        
+                    </tr>
                 </table>
-                &uArr; Player 2 &uArr;        
+                &uArr; Player 2 &uArr;
                 <p>
                     Link for player 1 team <a href=# id="player2linkToSend">Copy link</a><br>
                     <input class="UrlTextArea" id="pl2UrlTextArea"/>
