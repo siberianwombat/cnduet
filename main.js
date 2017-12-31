@@ -94,5 +94,41 @@ var UrlPrefix = document.location.href.replace(document.location.search, '');
     document.getElementById("p2layout").innerHTML = "#" + seed;
 
     // showing the panel
-    document.getElementById(side==2 ? "player2" : "player1").style.display='block';
+    let playerPanel = document.getElementById(side==2 ? "player2" : "player1");
+    playerPanel.style.display = 'block';
+
+    // auto-hide the screen when tipped flat
+    function handleOrientation(e) {
+        /*
+            in portrait mode:
+                beta = negative, when tipped forward beyond flat
+                beta = 0 when flat
+                beta = 90 when upright
+                beta = 90-180 when tipped back beyond upright
+            in landscape:
+                gamma = 0 when flat
+                gamma = +/-90 when upright (depending on if which way it was tipped)
+                gamma = opposite sign, when tipped beyond upright
+        */
+        if (Math.abs(e.beta) < 35 && Math.abs(e.gamma) < 35) {
+            // hide
+            playerPanel.style.display = 'none';
+            document.getElementById('hidden').style.display = 'block';
+        } else {
+            playerPanel.style.display = 'block';
+            document.getElementById('hidden').style.display = 'none';
+        }
+        //pl1UrlTextArea.value += "  b: " + Math.round(e.beta) + "  g: " + Math.round(e.gamma);
+    }
+    window.addEventListener("deviceorientation", handleOrientation);
+    document.getElementById('disableAutoHide').onclick = function () {
+        playerPanel.style.display = 'block';
+        document.getElementById('hidden').style.display = 'none';
+        document.getElementById('enableAutoHideControls').style.display = 'block';
+        window.removeEventListener("deviceorientation", handleOrientation);
+    };
+    document.getElementById('enableAutoHide').onclick = function () {
+        document.getElementById('enableAutoHideControls').style.display = 'none';
+        window.addEventListener("deviceorientation", handleOrientation);
+    };
 })();
