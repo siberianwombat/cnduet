@@ -25,7 +25,7 @@ function gettingLayoutWithSeed(seed) {
     return layout
 }
 
-var UrlPrefix="http://zav.org.ua/cnduet/"; // @todo: take this from request URL
+var UrlPrefix = document.location.href.replace(document.location.search, '');
 
 (function (){
     let docURL = new URL(document.location.href);
@@ -53,18 +53,18 @@ var UrlPrefix="http://zav.org.ua/cnduet/"; // @todo: take this from request URL
     var pl1UrlTextArea = document.getElementById("pl1UrlTextArea")
     pl1UrlTextArea.value = UrlPrefix + "?seed=" + seed + "&side=2";
     var pl2UrlTextArea = document.getElementById("pl2UrlTextArea")
-    pl2UrlTextArea.value = UrlPrefix + "?seed=" + seed;    
+    pl2UrlTextArea.value = UrlPrefix + "?seed=" + seed;
 
     var selectInputContent = input => {
         if (navigator.userAgent.match(/Android|webOS|iPhone|iPad|Windows Phone/i)) {
             let range = document.createRange();
             range.selectNodeContents(input);
-    
+
             var selection = window.getSelection();
             selection.removeAllRanges();
             selection.addRange(range);
-    
-            input.setSelectionRange(0, 999999);                
+
+            input.setSelectionRange(0, 999999);
         } else {
             input.select()
         }
