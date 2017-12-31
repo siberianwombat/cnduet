@@ -98,8 +98,16 @@ var UrlPrefix = document.location.href.replace(document.location.search, '');
     playerPanel.style.display = 'block';
 
     document.getElementById('cardSizeControls').style.display = 'block';
+    if (window.localStorage.getItem('card-shape') === 'square') {
+        playerPanel.classList.add('square-cells');
+    }
 
     // auto-hide the screen when tipped flat
+    function autoShow() {
+        playerPanel.style.display = 'block';
+        document.getElementById('cardSizeControls').style.display = 'block';
+        document.getElementById('hidden').style.display = 'none';
+    }
     function handleOrientation(e) {
         /*
             in portrait mode:
@@ -118,31 +126,34 @@ var UrlPrefix = document.location.href.replace(document.location.search, '');
             document.getElementById('cardSizeControls').style.display = 'none';
             document.getElementById('hidden').style.display = 'block';
         } else {
-            playerPanel.style.display = 'block';
-            document.getElementById('cardSizeControls').style.display = 'block';
-            document.getElementById('hidden').style.display = 'none';
+            autoShow();
         }
         //pl1UrlTextArea.value += "  b: " + Math.round(e.beta) + "  g: " + Math.round(e.gamma);
     }
-    window.addEventListener("deviceorientation", handleOrientation);
+    if (window.localStorage.getItem('auto-hide-disabled')) {
+        document.getElementById('enableAutoHideControls').style.display = 'block';
+    } else {
+        window.addEventListener("deviceorientation", handleOrientation);
+    }
     document.getElementById('disableAutoHide').onclick = function () {
-        playerPanel.style.display = 'block';
-        document.getElementById('cardSizeControls').style.display = 'block';
-        document.getElementById('hidden').style.display = 'none';
-
+        autoShow();
         document.getElementById('enableAutoHideControls').style.display = 'block';
         window.removeEventListener("deviceorientation", handleOrientation);
+        window.localStorage.setItem('auto-hide-disabled', 'true');
     };
     document.getElementById('enableAutoHide').onclick = function () {
         document.getElementById('enableAutoHideControls').style.display = 'none';
         window.addEventListener("deviceorientation", handleOrientation);
+        window.localStorage.removeItem('auto-hide-disabled');
     };
 
 
     document.getElementById('rectCardSetting').onclick = function() {
         playerPanel.classList.remove('square-cells');
+        window.localStorage.setItem('card-shape', 'rect');
     };
     document.getElementById('squareCardSetting').onclick = function() {
         playerPanel.classList.add('square-cells');
+        window.localStorage.setItem('card-shape', 'square');
     };
 })();
