@@ -106,10 +106,10 @@ var UrlPrefix = document.location.href.replace(document.location.search, '');
 
     // auto-hide the screen when tipped flat
     function autoShow() {
-        playerPanel.style.display = 'block';
-        document.getElementById('controls').style.display = 'block';
-        document.getElementById('hidden').style.display = 'none';
+        document.getElementById('hidden').style.top = '110vh';
     }
+    let angle_start = 33, angle_end = 45;
+    let hidden_top_start = 110, hidden_top_end = 0;
     function handleOrientation(e) {
         /*
             in portrait mode:
@@ -122,11 +122,19 @@ var UrlPrefix = document.location.href.replace(document.location.search, '');
                 gamma = +/-90 when upright (depending on if which way it was tipped)
                 gamma = opposite sign, when tipped beyond upright
         */
-        if (Math.abs(e.beta) < 35 && Math.abs(e.gamma) < 35) {
+        let angle = Math.max(Math.abs(e.beta), Math.abs(e.gamma))
+        if (angle < angle_end) {
             // hide
-            playerPanel.style.display = 'none';
-            document.getElementById('controls').style.display = 'none';
-            document.getElementById('hidden').style.display = 'block';
+            let percent;
+            if (angle < angle_start) {
+                percent = 0;
+            } else {
+                percent = (angle_start - angle) / (angle_start - angle_end);
+            }
+            percent = Math.round(percent*200)/200;  // limit amount of precision, so browser doesn't have to repaint for every minute change
+            let hidden_top = percent * (hidden_top_start - hidden_top_end) + hidden_top_end;
+            document.getElementById('hidden').style.top = hidden_top + 'vh';
+            document.getElementById('hidden').style.opacity = 1-percent/2;
         } else {
             autoShow();
         }
