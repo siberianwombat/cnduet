@@ -1,31 +1,39 @@
+<!doctype html>
 <html>
     <head>
         <title>
             Codenames: Duet key card generator
         </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
         <script lang="javascript" src="main.js" async="true"></script>
         <style>
             body {
                 background-color: lightsteelblue;
                 font-family: verdana, sans-serif;
+                margin: 0 0 20px 0;
+                box-sizing: border-box;
             }
             div {
                 display: none;
             }
-            table {
-                width: 500px;
-                /* border-collapse: collapse; */
-            }            
             td {
                 border: 2px solid lightsteelblue;
                 border-radius: 10px;
-                height: 50px;
+                background-clip: padding-box; /* avoid some weird rounded border artifacts https://stackoverflow.com/a/6172847/ */
+                padding: 0;
+                width: 18vmin;  /* 100% / 5 == 20, minus some more room from the scroll bar area */
+                height: calc(18vmin * 16 / 25);  /* 16/25 is ratio of word cards */
+            }
+            .square-cells td {
+                height: 18vmin;
             }
             .UrlTextArea {
                 width: 500px;
+                max-width: 90vw;
                 border: 1px solid steelblue;
                 background-color: lightsteelblue;
-            }            
+            }
             .cella {
                 background-color: black;
             }
@@ -35,23 +43,48 @@
             .cellh {
                 background-color: Green;
             }
+            #hidden {
+                display: block;
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                top: 110vh;
+                background-color: lightsteelblue;
+                text-align: center;
+                box-shadow: 0 -4vh 3vh 1vh rgba(110,110,110,0.4);
+            }
+            #hidden h1 {
+                margin: 3em 0;
+            }
+            #controls {
+                text-align: center;
+            }
+            #controls table {
+                display: inline;
+                font-size: 5vmin;
+                line-height: 1;
+                vertical-align: middle;
+            }
+            #controls table.square-cells {
+                font-size: 12vmin;
+            }
         </style>
     </head>
     <body>
         <div id="index">
             <H2>Codenames Duet key card generator</H2>
             <p>
-                <a id="genLayoutLink" href=#>Generate new random layout</a> 
+                <a id="genLayoutLink" href=#>Generate new random layout</a>
                 <p>or</p>
                 <form method="GET">
-                    enter the layout number :<input size=12 name="seed">,<br>
+                    enter the layout number: <input size=12 name="seed">,<br>
                     select player side:
                     <input type="radio" name="side" value=1>1st player
                     <input checked=true type="radio" name="side" value=2>2nd player<br>
                     and press the button to view selected layout:
                     <input type="submit" value="Show selected layout">
                 </form>
-            </p>                
+            </p>
         </div>
         <div id="player1">
             <center>
@@ -93,7 +126,7 @@
                         <td id="p1card23">&nbsp;</td>
                         <td id="p1card24">&nbsp;</td>
                         <td id="p1card25">&nbsp;</tr>
-                    </tr>                        
+                    </tr>
                 </table>
                 &uArr; Player 1 &uArr;
                 <p>
@@ -141,13 +174,31 @@
                         <td id="p2card3">&nbsp;</td>
                         <td id="p2card2">&nbsp;</td>
                         <td id="p2card1">&nbsp;</td>
-                    </tr>                        
+                    </tr>
                 </table>
-                &uArr; Player 2 &uArr;        
+                &uArr; Player 2 &uArr;
                 <p>
                     Link for player 1 team <a href=# id="player2linkToSend">Copy link</a><br>
                     <input class="UrlTextArea" id="pl2UrlTextArea"/>
                 </p>
+            </center>
+        </div>
+        <div id="hidden">
+            <h1>Hidden</h1>
+            <h3>Tip device up to see the layout.<br>
+                (So your partner can't see it)</h3>
+            <h2><a href=# id=disableAutoHide>Turn Off Auto-Hide</a></h2>
+        </div>
+        <div id="controls">
+            <a href=# id=nextGame>Next Game &rarr;</a><br>
+            <br>
+            Card Shape:<br>
+            <table id=rectCardSetting><td class=cellx>Word</td></table>
+            <table class=square-cells id=squareCardSetting><td class=cellx>&#x2663;</td></table>
+        </div>
+        <div id="enableAutoHideControls">
+            <center>
+                <a href=# id=enableAutoHide>Turn On Auto-Hide</a></h2>
             </center>
         </div>
     </body>

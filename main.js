@@ -25,15 +25,15 @@ function gettingLayoutWithSeed(seed) {
     return layout
 }
 
-var UrlPrefix="http://zav.org.ua/cnduet/"; // @todo: take this from request URL
+var UrlPrefix = document.location.href.replace(document.location.search, '');
 
 (function (){
     let docURL = new URL(document.location.href);
-    let seed = docURL.searchParams.get('seed');
-    let side = docURL.searchParams.get('side');
+    let seed = parseInt(docURL.searchParams.get('seed'), 10);
+    let side = parseInt(docURL.searchParams.get('side'), 10);
 
     // if no seed, show just index page to offer to get one
-    if (seed == null) {
+    if (!seed) {
         document.getElementById("index").style.display='block';
         document.getElementById("genLayoutLink").onclick = function() {
             document.getElementById("genLayoutLink").href = '?seed=' + getRandomSeed()
@@ -53,18 +53,18 @@ var UrlPrefix="http://zav.org.ua/cnduet/"; // @todo: take this from request URL
     var pl1UrlTextArea = document.getElementById("pl1UrlTextArea")
     pl1UrlTextArea.value = UrlPrefix + "?seed=" + seed + "&side=2";
     var pl2UrlTextArea = document.getElementById("pl2UrlTextArea")
-    pl2UrlTextArea.value = UrlPrefix + "?seed=" + seed;    
+    pl2UrlTextArea.value = UrlPrefix + "?seed=" + seed;
 
     var selectInputContent = input => {
         if (navigator.userAgent.match(/Android|webOS|iPhone|iPad|Windows Phone/i)) {
             let range = document.createRange();
             range.selectNodeContents(input);
-    
+
             var selection = window.getSelection();
             selection.removeAllRanges();
             selection.addRange(range);
-    
-            input.setSelectionRange(0, 999999);                
+
+            input.setSelectionRange(0, 999999);
         } else {
             input.select()
         }
@@ -94,5 +94,76 @@ var UrlPrefix="http://zav.org.ua/cnduet/"; // @todo: take this from request URL
     document.getElementById("p2layout").innerHTML = "#" + seed;
 
     // showing the panel
-    document.getElementById(side==2 ? "player2" : "player1").style.display='block';
+    let playerPanel = document.getElementById(side==2 ? "player2" : "player1");
+    playerPanel.style.display = 'block';
+
+    // settings
+    document.getElementById('nextGame').href = window.location.search.replace('seed='+seed, 'seed='+(seed+1));
+    document.getElementById('controls').style.display = 'block';
+    if (window.localStorage.getItem('card-shape') === 'square') {
+        playerPanel.classList.add('square-cells');
+    }
+
+    // auto-hide the screen when tipped flat
+    function autoShow() {
+        document.getElementById('hidden').style.top = '110vh';
+    }
+    let angle_start = 33, angle_end = 45;
+    let hidden_top_start = 110, hidden_top_end = 0;
+    function handleOrientation(e) {
+        /*
+            in portrait mode:
+                beta = negative, when tipped forward beyond flat
+                beta = 0 when flat
+                beta = 90 when upright
+                beta = 90-180 when tipped back beyond upright
+            in landscape:
+                gamma = 0 when flat
+                gamma = +/-90 when upright (depending on if which way it was tipped)
+                gamma = opposite sign, when tipped beyond upright
+        */
+        let angle = Math.max(Math.abs(e.beta), Math.abs(e.gamma))
+        if (angle < angle_end) {
+            // hide
+            let percent;
+            if (angle < angle_start) {
+                percent = 0;
+            } else {
+                percent = (angle_start - angle) / (angle_start - angle_end);
+            }
+            percent = Math.round(percent*200)/200;  // limit amount of precision, so browser doesn't have to repaint for every minute change
+            let hidden_top = percent * (hidden_top_start - hidden_top_end) + hidden_top_end;
+            document.getElementById('hidden').style.top = hidden_top + 'vh';
+            document.getElementById('hidden').style.opacity = 1-percent/2;
+        } else {
+            autoShow();
+        }
+        //pl1UrlTextArea.value += "  b: " + Math.round(e.beta) + "  g: " + Math.round(e.gamma);
+    }
+    if (window.localStorage.getItem('auto-hide-disabled')) {
+        document.getElementById('enableAutoHideControls').style.display = 'block';
+    } else {
+        window.addEventListener("deviceorientation", handleOrientation);
+    }
+    document.getElementById('disableAutoHide').onclick = function () {
+        autoShow();
+        document.getElementById('enableAutoHideControls').style.display = 'block';
+        window.removeEventListener("deviceorientation", handleOrientation);
+        window.localStorage.setItem('auto-hide-disabled', 'true');
+    };
+    document.getElementById('enableAutoHide').onclick = function () {
+        document.getElementById('enableAutoHideControls').style.display = 'none';
+        window.addEventListener("deviceorientation", handleOrientation);
+        window.localStorage.removeItem('auto-hide-disabled');
+    };
+
+
+    document.getElementById('rectCardSetting').onclick = function() {
+        playerPanel.classList.remove('square-cells');
+        window.localStorage.setItem('card-shape', 'rect');
+    };
+    document.getElementById('squareCardSetting').onclick = function() {
+        playerPanel.classList.add('square-cells');
+        window.localStorage.setItem('card-shape', 'square');
+    };
 })();
